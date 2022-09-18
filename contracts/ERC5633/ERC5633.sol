@@ -22,7 +22,7 @@ contract ERC5633 is ERC1155, IERC5633 {
             super.supportsInterface(interfaceId);
     }
 
-    function isSoulbound(uint256 id) external view override returns (bool) {
+    function isSoulbound(uint256 id) public view override returns (bool) {
         return _soulbounds[id];
     }
 
@@ -32,6 +32,23 @@ contract ERC5633 is ERC1155, IERC5633 {
         emit Soulbound(id, soulbound);
     }
 
-    // TODO: _beforeTokenTransfer
-    // https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC1155/ERC1155.sol#L429
+    function _beforeTokenTransfer(
+        address operator,
+        address from,
+        address to,
+        uint[] memory ids,
+        uint[] memory amounts,
+        bytes memory data
+    ) internal virtual override {
+        // _beforeTokenTransfer called on 
+        // _safeTransferFrom, _safeBatchTransferFrom, _mint, _mintBatch, _burn, _burnBatch.
+        super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
+        for (uint i=0; i < ids.length; i++) {
+            if (isSoulbound(ids[i])) {
+                require(from == address(0) || to == address(0));
+                // SBT only allows transfer via _mint, _burn.
+            }
+        }
+    }
+
 }
