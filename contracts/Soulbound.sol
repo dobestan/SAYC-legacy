@@ -40,9 +40,21 @@ contract Soulbound is ERC5633, Ownable {
         _mint(soul, SM_M, bdsm_score[5], "");
     }
 
+    function isRegistered(address soul) public view returns (bool) {
+        return balanceOf(soul, REGISTERED) != 0;
+    }
+
+    modifier soulRegistered(address soul) {
+        require(
+            isRegistered(soul),
+            "Soulbound: Soul should be register"
+        );
+        _;
+    }
+
     modifier soulNotRegistered(address soul) {
         require(
-            balanceOf(soul, REGISTERED) == 0,
+            !isRegistered(soul),
             "Soulbound: Soul is already registered"
         );
         _;
