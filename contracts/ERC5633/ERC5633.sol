@@ -12,8 +12,15 @@ contract ERC5633 is ERC1155, IERC5633 {
     constructor(string memory uri_) ERC1155(uri_) {
     }
 
-    // TODO: supportsInterface
-    // https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC1155/ERC1155.sol#L40
+    /**
+     * @dev See {IERC165-supportsInterface}.
+     */
+    // TODO: IERC5633Receiver Implementation
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC1155) returns (bool) {
+        return
+            interfaceId == type(IERC5633).interfaceId ||
+            super.supportsInterface(interfaceId);
+    }
 
     function isSoulbound(uint256 id) external view override returns (bool) {
         return _soulbounds[id];
