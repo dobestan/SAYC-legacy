@@ -12,8 +12,8 @@ async function main() {
     const soulbound = await Soulbound.attach(await manager.soulbound());
 
     console.log("[Event Listening] Manager:Matched");
-    manager.on("Matched", (accountA, accountB) => {
-        console.log(`[Event emitted] Manager:Matched(${accountA}, ${accountB})`);
+    manager.on("Matched", (matchId, accountA, accountB) => {
+        console.log(`[Event emitted] Manager:Matched(${matchId}, ${accountA}, ${accountB})`);
     });
 
     manager.createMatch(signers[0].address, signers[1].address);

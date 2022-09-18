@@ -15,7 +15,11 @@ contract Manager is Ownable {
         address account1;
     }
 
-    event Matched(address indexed accountA, address indexed accountB);
+    event Matched(
+        uint indexed MatchId,
+        address indexed accountA,
+        address indexed accountB
+    );
 
     constructor() {
         soulbound = address(new Soulbound());
@@ -34,10 +38,12 @@ contract Manager is Ownable {
     function createMatch(address accountA, address accountB) public onlyOwner {
         (address address0, address address1) = _asOrderedAddresses(accountA, accountB);
         Match memory createdMatch = Match(address0, address1);
+        
+        uint matchId = matches.length;
         matches.push(createdMatch);
 
-        emit Matched(address0, address1);
-        emit Matched(address1, address0);
+        emit Matched(matchId, address0, address1);
+        emit Matched(matchId, address1, address0);
     }
 
     function createMatches(address[] calldata accountAs, address[] calldata accountBs) public onlyOwner {
