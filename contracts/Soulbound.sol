@@ -19,6 +19,8 @@ contract Soulbound is ERC5633, Ownable {
 
     uint public constant MALICIOUS = 7;
 
+    event Register(address indexed soul);
+
     constructor() ERC5633("") {
         _setSoulbound(REGISTERED, true);
         _setSoulbound(BD_B, true);
@@ -38,6 +40,8 @@ contract Soulbound is ERC5633, Ownable {
         _mint(soul, DS_S, bdsm_score[3], "");
         _mint(soul, SM_S, bdsm_score[4], "");
         _mint(soul, SM_M, bdsm_score[5], "");
+
+        emit Register(soul);
     }
 
     function isRegistered(address soul) public view returns (bool) {
