@@ -16,7 +16,7 @@ contract Manager is Ownable {
     }
 
     event Matched(
-        uint indexed MatchId,
+        uint indexed matchId,
         address indexed accountA,
         address indexed accountB
     );
