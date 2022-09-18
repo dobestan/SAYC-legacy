@@ -43,6 +43,17 @@ contract Soulbound is ERC5633, Ownable {
 
         emit Register(soul);
     }
+    
+    function getScore(address soul) public view returns (uint, uint, uint, uint, uint, uint) {
+        return (
+            balanceOf(soul, BD_B),
+            balanceOf(soul, BD_D),
+            balanceOf(soul, DS_D),
+            balanceOf(soul, DS_S),
+            balanceOf(soul, SM_S),
+            balanceOf(soul, SM_M)
+        );
+    }
 
     function isRegistered(address soul) public view returns (bool) {
         return balanceOf(soul, REGISTERED) != 0;

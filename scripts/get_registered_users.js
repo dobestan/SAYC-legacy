@@ -19,8 +19,9 @@ async function main() {
     const souls = registerEvents.map(event => event.args.soul);
 
     console.log(`Total Registered Users: ${souls.length}`);
-    souls.forEach((soul) => {
-        console.log(soul);
+    souls.forEach(async (soul) => {
+        const score = await soulbound.getScore(soul);
+        console.log(`Soul ${soul} Score is ${score}`);
     });
 }
 
